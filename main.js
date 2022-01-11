@@ -1,7 +1,7 @@
 console.log("Grocery List Application");
 
-const button = document.getElementById("submit");
-const text = document.getElementById("item");
+const button = document.getElementById("btn");
+const text = document.getElementById("input-bar");
 
 var item;
 var str='';
@@ -20,7 +20,7 @@ button.addEventListener("click", (e) => {
     e.preventDefault();
     list.push(item);
     var list_items = document.getElementById("item_list");
-    str = `<div style="border:black 1px solid; margin:auto; width:70%; height:20px; padding:10px 0">
+    str = `<div style="border:black 1px solid; width:70%; height:20px; padding:10px 0; margin:1.5% 0">
         <li style="list-style:none; display:inline-block; font-size:1.5em">${item}</li>
         <button onclick="del(event)" style="float:right">delete</button>
         <button onclick="check(event)" style="float:right">tick</button>
@@ -29,15 +29,15 @@ button.addEventListener("click", (e) => {
     
     sessionStorage.setItem("list",JSON.stringify(list));
     var li = JSON.parse(sessionStorage.getItem("list"));
-    console.log(li);
+    //console.log(li);
 });
 
 //session storage
-document.getElementById('demo').addEventListener("click",(e)=>{
-    sessionStorage.setItem("list",JSON.stringify(list));
-    var li = JSON.parse(sessionStorage.getItem("list"));
-    console.log(li);
-});
+//document.getElementById('demo').addEventListener("click",(e)=>{
+//    sessionStorage.setItem("list",JSON.stringify(list));
+//    var li = JSON.parse(sessionStorage.getItem("list"));
+//    console.log(li);
+//});
 
 //delete list item
 function del(e){
@@ -56,7 +56,7 @@ function check(e){
     checked_item.firstElementChild.innerHTML = `<strike>${list_item}</strike>`;
     checked_item.remove();
     str = `<div style="border:black 1px solid; margin:auto; width:70%; padding:10px 0">
-        <li style="list-style:none; display:inline-block"><strike>${list_item}</strike></li>
+        <li style="list-style:none; display:inline-block; font-size:1.5em"><strike>${list_item}</strike></li>
         <button onclick="del(event)" style="float:right">delete</button>
         <button onclick="check(event)" style="float:right">tick</button>
     </div>`
@@ -65,7 +65,7 @@ function check(e){
 }
 
 //clear the list 
-document.getElementById('clear').addEventListener('click', (e) => {
+document.getElementById('clear-btn').addEventListener('click', (e) => {
     document.getElementById('item_list').innerHTML = '';
 });
 

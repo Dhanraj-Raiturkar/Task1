@@ -2,24 +2,56 @@ body{
     margin: 0px;
     border: 0px;
     padding: 10px 0;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    align-items: center;
+    background-color: #d1daeb;
+    font-family: monospace, sans-serif;
 }
 
 #grocery{
-    border: 1px solid black;
+    box-shadow: 0px 0px 5px 5px #cccaca;
     border-radius: 5px;
-    width: 50%;
-    margin: auto;
+    width: 65%;
     padding: 3% 0;
+    background-color: whitesmoke;
 }
 
 .text{
     text-align: center;
+    color: #382c2b;
+    font-size: 2.2em;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    color: transparent;
+    text-shadow: 0 0 1px #000;
+}
+
+#input-container{
+    width: 50%;
+    padding: 2% 0;
+    display: flex;
+    justify-content: center;
+}
+
+#input-bar{
+    border-color: #80a2db;
+    border-radius: 5px;
+    width: 99%;
+    height: 1.7em;
+    background-color: #dfe5f0;
+}
+
+#btn{
+    background-color: #97b1df;
+    border: none;
+    border-radius: 5px;
 }
 
 #form{
-    margin: auto;
-    width: 35%;
-    padding: 2% 0;
+    display: flex;
+    justify-content: center;
 }
 
 #item_list{
@@ -27,10 +59,14 @@ body{
     padding: 0px;
     border: 0px;
     width: 100%;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 #btn-div{
     display: flex;
+    justify-content: center;
 }
 
 #clear{
@@ -39,4 +75,13 @@ body{
 
 #list{
     margin: 3% 0;
+}
+
+#clear-btn{
+    border: none;
+    background-color: whitesmoke;
+    font-family: monospace, sans-serif;
+    letter-spacing: 2px;
+    font-size: 1em;
+    color: rgb(160, 26, 26);
 }
