@@ -1,0 +1,42 @@
+body{
+    margin: 0px;
+    border: 0px;
+    padding: 10px 0;
+}
+
+#grocery{
+    border: 1px solid black;
+    border-radius: 5px;
+    width: 50%;
+    margin: auto;
+    padding: 3% 0;
+}
+
+.text{
+    text-align: center;
+}
+
+#form{
+    margin: auto;
+    width: 35%;
+    padding: 2% 0;
+}
+
+#item_list{
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+    width: 100%;
+}
+
+#btn-div{
+    display: flex;
+}
+
+#clear{
+    margin: auto;
+}
+
+#list{
+    margin: 3% 0;
+}
