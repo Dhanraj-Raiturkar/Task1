@@ -29,7 +29,7 @@ body{
 }
 
 #input-container{
-    width: 50%;
+    width: 80%;
     padding: 1% 0;
     display: flex;
     justify-content: center;
@@ -71,6 +71,8 @@ body{
 #btn-div{
     display: flex;
     justify-content: center;
+    flex-direction: column;
+    align-items: center;
 }
 
 #clear{
@@ -92,4 +94,5 @@ body{
     letter-spacing: 2px;
     font-size: 1em;
     color: rgb(160, 26, 26);
+    margin: 2% 0;
 }
