@@ -20,10 +20,10 @@ button.addEventListener("click", (e) => {
     e.preventDefault();
     list.push(item);
     var list_items = document.getElementById("item_list");
-    str = `<div style="border:black 1px solid; width:70%; height:20px; padding:10px 0; margin:1.5% 0">
-        <li style="list-style:none; display:inline-block; font-size:1.5em">${item}</li>
-        <button onclick="del(event)" style="float:right">delete</button>
-        <button onclick="check(event)" style="float:right">tick</button>
+    str = `<div style="width:50%; height:20px; padding:10px 0; margin:1% 0">
+        <li style="width:40%; list-style:none; display:inline-block; font-size:1.5em; font-family:monospace,sans-serif; font-weight:600; font-size:1.3em; letter-spacing:2px; overflow:hidden">${item}</li>
+        <i class="material-icons" style="color:rgb(212, 46, 46); float:right; font-size:20px; margin:0 1%" onclick="del(event)">delete</i>
+        <i class="material-icons" style="color:green; float:right; font-size:20px; margin:0 1%" onclick="check(event)">check_circle_outline</i>
     </div>`
     list_items.innerHTML += str;
     
@@ -55,10 +55,10 @@ function check(e){
     checked_item = e.target.parentElement;
     checked_item.firstElementChild.innerHTML = `<strike>${list_item}</strike>`;
     checked_item.remove();
-    str = `<div style="border:black 1px solid; margin:auto; width:70%; padding:10px 0">
-        <li style="list-style:none; display:inline-block; font-size:1.5em"><strike>${list_item}</strike></li>
-        <button onclick="del(event)" style="float:right">delete</button>
-        <button onclick="check(event)" style="float:right">tick</button>
+    str = `<div style="width:50%; height:20px; padding:10px 0; margin:1% 0">
+        <li style="list-style:none; display:inline-block; font-size:1.5em; font-family:monospace,sans-serif; font-weight:600; font-size:1.3em; letter-spacing:2px"><strike>${list_item}</strike></li>
+        <i class="material-icons" style="color:rgb(212, 46, 46); float:right; font-size:20px; margin:0 1%" onclick="del(event)">delete</i>
+        <i class="material-icons" style="color:green; float:right; font-size:20px; margin:0 1%" onclick="check(event)">check_circle_outline</i>
     </div>`
     var list_node = document.getElementById('item_list');
     list_node.innerHTML += str;

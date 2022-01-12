@@ -13,7 +13,7 @@ body{
 #grocery{
     box-shadow: 0px 0px 5px 5px #cccaca;
     border-radius: 5px;
-    width: 65%;
+    width: 55%;
     padding: 3% 0;
     background-color: whitesmoke;
 }
@@ -30,23 +30,27 @@ body{
 
 #input-container{
     width: 50%;
-    padding: 2% 0;
+    padding: 1% 0;
     display: flex;
     justify-content: center;
 }
 
 #input-bar{
-    border-color: #80a2db;
-    border-radius: 5px;
-    width: 99%;
+    border: 2px solid #508df7;
+    border-radius: 3.5px;
+    width: 80%;
     height: 1.7em;
     background-color: #dfe5f0;
 }
 
 #btn{
-    background-color: #97b1df;
+    background-color: #9abfff;
     border: none;
-    border-radius: 5px;
+    border-radius: 3.5px;
+    width: 19%;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+    font-family: monospace, sans-serif;
 }
 
 #form{
@@ -74,6 +78,10 @@ body{
 }
 
 #list{
+    margin: 3% 0;
+}
+
+#item_list{
     margin: 3% 0;
 }
 
