@@ -48,7 +48,7 @@ body{
     border: none;
     border-radius: 3.5px;
     width: 19%;
-    letter-spacing: 1.5px;
+    letter-spacing: 1px;
     font-weight: 600;
     font-family: monospace, sans-serif;
 }
