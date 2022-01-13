@@ -5,8 +5,7 @@ const text = document.getElementById("input-bar");
 
 var item;
 var str='';
-var id=0;
-const list = new Array();
+
 
 text.addEventListener("change", (e) => {
     e.preventDefault();
@@ -15,6 +14,13 @@ text.addEventListener("change", (e) => {
 
 //populate grocery list
 button.addEventListener("click", (e) => {
+    var list = JSON.parse(sessionStorage.getItem("list"));
+    if (list == null) {
+        var list = new Array();
+        var id = 0;
+    } else {
+        var id = list.length;
+    }
     id+=1;
     text.value = '';
     e.preventDefault();
@@ -24,15 +30,14 @@ button.addEventListener("click", (e) => {
         checked: false,
         deleted: false,
     }
-    list.push(obj);
     var list_items = document.getElementById("item_list");
     str = `<div style="width:80%; height:20px; padding:10px 0; margin:1% 0">
         <li style="width:40%; list-style:none; display:inline-block; font-size:1.5em; font-family:monospace,sans-serif; font-weight:600; font-size:1.3em; letter-spacing:2px; overflow:hidden">${item}</li>
         <i class="material-icons" style="cursor:pointer; color:rgb(212, 46, 46); float:right; font-size:20px; margin:0 1%" onclick="del(event)">delete</i>
         <i class="material-icons" style="cursor:pointer; color:green; float:right; font-size:20px; margin:0 1%" onclick="check(event)">check_circle_outline</i>
     </div>`
-    list_items.innerHTML += str;
-    
+    list_items.innerHTML = str + list_items.innerHTML;
+    list.push(obj);
     sessionStorage.setItem("list",JSON.stringify(list));
 });
 
@@ -45,44 +50,66 @@ function del(e){
     div.innerHTML = deleted_item;
     let text = div.innerText || div.textContent;
     let data = JSON.parse(sessionStorage.getItem("list"));
+    let deleted_list = JSON.parse(sessionStorage.getItem("deleted"));
     data.forEach((i) => {
         if(i.item==text){
-            data.splice(data.indexOf(i),1);
+            deleted_row = data.splice(data.indexOf(i),1);
+            if(deleted_list==null){
+                deleted_list = new Array();
+                deleted_list.push(deleted_row);
+            }else{
+                deleted_list.push(deleted_row);
+            }
+            sessionStorage.setItem("deleted", JSON.stringify(deleted_list));
+            sessionStorage.setItem("list", JSON.stringify(data));
+            e.target.parentElement.remove();
         }
     });
-    let deleted_list = JSON.parse(sessionStorage.getItem("deleted"));
-    if(deleted_list!=null){
-        deleted_list.push(text);
-    }else{
-        deleted_list = new Array();
-        deleted_list.push(text);
-    }
-    sessionStorage.setItem("deleted",JSON.stringify(deleted_list));
-    sessionStorage.setItem("list",JSON.stringify(data));
-    e.target.parentElement.remove();
+    
 }
 
 //check list item
 function check(e){
     e = e || window.event;
+    var list_node = document.getElementById('item_list');    
+    list_node.innerHTML = '';
     let list_item = e.target.parentElement.firstElementChild.innerHTML;
     checked_item = e.target.parentElement;
-    //console.log(list_item);
+    let div = document.createElement('div');
+    div.innerHTML = list_item;
+    list_item = div.innerText || div.textContent;
     let data = JSON.parse(sessionStorage.getItem("list"));
-    data.forEach((i) => {
+    data.map((i,index) => {
         if(i.item==list_item){
-            i.checked = true;
-        }
+            var checked_value = data.splice(index,1);
+            if(i.checked==false){
+                i.checked=true;
+                data = checked_value.concat(data);
+            }else if(i.checked==true){
+                i.checked = false;
+                data = data.concat(checked_value);
+            }
+         }
     });
     sessionStorage.setItem("list",JSON.stringify(data));
-    checked_item.remove();
-    str = `<div style="width:80%; height:20px; padding:10px 0; margin:1% 0">
-        <li style="list-style:none; display:inline-block; font-size:1.5em; font-family:monospace,sans-serif; font-weight:600; font-size:1.3em; letter-spacing:2px"><strike>${list_item}</strike></li>
-        <i class="material-icons" style="cursor:pointer; color:rgb(212, 46, 46); float:right; font-size:20px; margin:0 1%" onclick="del(event)">delete</i>
-        <i class="material-icons" style="cursor:pointer; color:green; float:right; font-size:20px; margin:0 1%" onclick="check(event)">check_circle_outline</i>
-    </div>`
-    var list_node = document.getElementById('item_list');
-    list_node.innerHTML += str;
+    data = JSON.parse(sessionStorage.getItem("list"));
+    data.forEach((i) => {
+        if(i.checked==true){
+            str = `<div style="width:80%; height:20px; padding:10px 0; margin:1% 0">
+                        <li style="width:40%; list-style:none; display:inline-block; font-size:1.5em; font-family:monospace,sans-serif; font-weight:600; font-size:1.3em; letter-spacing:2px; overflow:hidden"><strike>${i.item}</strike></li>
+                        <i class="material-icons" style="cursor:pointer; color:rgb(212, 46, 46); float:right; font-size:20px; margin:0 1%" onclick="del(event)">delete</i>
+                        <i class="material-icons" style="cursor:pointer; color:green; float:right; font-size:20px; margin:0 1%" onclick="check(event)">check_circle_outline</i>
+                    </div>`
+            list_node.innerHTML = str + list_node.innerHTML;
+        }else if(i.checked==false){
+            str = `<div style="width:80%; height:20px; padding:10px 0; margin:1% 0">
+                        <li style="width:40%; list-style:none; display:inline-block; font-size:1.5em; font-family:monospace,sans-serif; font-weight:600; font-size:1.3em; letter-spacing:2px; overflow:hidden">${i.item}</li>
+                        <i class="material-icons" style="cursor:pointer; color:rgb(212, 46, 46); float:right; font-size:20px; margin:0 1%" onclick="del(event)">delete</i>
+                        <i class="material-icons" style="cursor:pointer; color:green; float:right; font-size:20px; margin:0 1%" onclick="check(event)">check_circle_outline</i>
+                    </div>`
+            list_node.innerHTML = str + list_node.innerHTML;
+        }
+    });
 }
 
 //clear the list 
@@ -106,7 +133,7 @@ function fetch_data(){
                 arr_unchecked.push(i);
             }
         });
-        const data = [...arr_unchecked, ...arr_checked];
+        const data = [...arr_unchecked.reverse(), ...arr_checked.reverse()];
         if(data!=null){
             data.forEach((i) => {
                 if(i.checked==false){
@@ -127,10 +154,64 @@ function fetch_data(){
             });
         }
     }
+    sessionStorage.setItem("list",JSON.stringify(list));
 }
 
 function disp_del_list(e){
     e = e || window.event;
     let d_list = JSON.parse(sessionStorage.getItem("deleted"));
-    console.log(d_list);
+    let ul = document.getElementById('deleted-list');
+    ul.innerHTML = '';
+    d_list.forEach((i) => {
+        str = `<div style="width:80%; height:20px; padding:10px 0; margin:1% 0">
+                    <li style="width:40%; list-style:none; display:inline-block; font-size:1.5em; font-family:monospace,sans-serif; font-weight:600; font-size:1.3em; letter-spacing:2px; overflow:hidden">${i[0].item}</li>
+                    <i onclick="undo_del(event)" class="material-icons" style="cursor:pointer; color:rgb(212, 46, 46); float:right; font-size:20px; margin:0 1%" onclick="del(event)">undo</i>
+                </div>`
+        ul.innerHTML += str;
+    });
+}
+
+function undo_del(e){
+    e = e || window.event;
+    deleted_element = e.target.parentElement.firstElementChild.innerHTML;
+    node = document.getElementById("item_list");
+    node.innerHTML = '';
+    del_list = JSON.parse(sessionStorage.getItem("deleted"));
+    grocery_list = JSON.parse(sessionStorage.getItem("list"));
+    del_list.forEach((i)=> {
+        if(i[0].item==deleted_element){
+            if(i[0].checked==false){
+                grocery_list.push(i[0]);
+                del_list.splice(del_list.indexOf(i),1);
+            }
+            else if(i[0].checked==true){
+                console.log('inside else');
+                let l = new Array(i[0]);
+                grocery_list = [...l, ...grocery_list];
+                console.log(grocery_list);
+                del_list.splice(del_list.indexOf(i),1);
+            }
+        }
+    });
+    e.target.parentElement.remove();
+    console.log(del_list);
+    grocery_list.forEach((i) => {
+        if(i.checked==true){
+            str = `<div style="width:80%; height:20px; padding:10px 0; margin:1% 0">
+                        <li style="width:40%; list-style:none; display:inline-block; font-size:1.5em; font-family:monospace,sans-serif; font-weight:600; font-size:1.3em; letter-spacing:2px; overflow:hidden"><strike>${i.item}</strike></li>
+                        <i class="material-icons" style="cursor:pointer; color:rgb(212, 46, 46); float:right; font-size:20px; margin:0 1%" onclick="del(event)">delete</i>
+                        <i class="material-icons" style="cursor:pointer; color:green; float:right; font-size:20px; margin:0 1%" onclick="check(event)">check_circle_outline</i>
+                    </div>`
+            node.innerHTML = str + node.innerHTML;
+        }else if(i.checked==false){
+            str = `<div style="width:80%; height:20px; padding:10px 0; margin:1% 0">
+                        <li style="width:40%; list-style:none; display:inline-block; font-size:1.5em; font-family:monospace,sans-serif; font-weight:600; font-size:1.3em; letter-spacing:2px; overflow:hidden">${i.item}</li>
+                        <i class="material-icons" style="cursor:pointer; color:rgb(212, 46, 46); float:right; font-size:20px; margin:0 1%" onclick="del(event)">delete</i>
+                        <i class="material-icons" style="cursor:pointer; color:green; float:right; font-size:20px; margin:0 1%" onclick="check(event)">check_circle_outline</i>
+                    </div>`
+            node.innerHTML = str + node.innerHTML;
+        }
+    });
+    sessionStorage.setItem("deleted",JSON.stringify(del_list));
+    sessionStorage.setItem("list",JSON.stringify(grocery_list));
 }
