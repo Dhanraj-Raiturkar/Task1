@@ -5,7 +5,7 @@ const text = document.getElementById("input-bar");
 
 var item;
 var str='';
-
+var disp_del_list_check = 0;
 
 text.addEventListener("change", (e) => {
     e.preventDefault();
@@ -158,17 +158,22 @@ function fetch_data(){
 }
 
 function disp_del_list(e){
+    disp_del_list_check++;
     e = e || window.event;
     let d_list = JSON.parse(sessionStorage.getItem("deleted"));
     let ul = document.getElementById('deleted-list');
     ul.innerHTML = '';
-    d_list.forEach((i) => {
-        str = `<div style="width:80%; height:20px; padding:10px 0; margin:1% 0">
-                    <li style="width:40%; list-style:none; display:inline-block; font-size:1.5em; font-family:monospace,sans-serif; font-weight:600; font-size:1.3em; letter-spacing:2px; overflow:hidden">${i[0].item}</li>
-                    <i onclick="undo_del(event)" class="material-icons" style="cursor:pointer; color:rgb(212, 46, 46); float:right; font-size:20px; margin:0 1%" onclick="del(event)">undo</i>
-                </div>`
-        ul.innerHTML += str;
-    });
+    if(disp_del_list_check%2!=0){
+        d_list.forEach((i) => {
+            str = `<div style="width:80%; height:20px; padding:10px 0; margin:1% 0">
+                        <li style="width:40%; list-style:none; display:inline-block; font-size:1.5em; font-family:monospace,sans-serif; font-weight:600; font-size:1.3em; letter-spacing:2px; overflow:hidden">${i[0].item}</li>
+                        <i onclick="undo_del(event)" class="material-icons" style="cursor:pointer; color:rgb(212, 46, 46); float:right; font-size:20px; margin:0 1%" onclick="del(event)">undo</i>
+                    </div>`
+            ul.innerHTML += str;
+        });
+    }else{
+        ul.innerHTML = '';
+    }
 }
 
 function undo_del(e){
